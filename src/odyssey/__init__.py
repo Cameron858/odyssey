@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from odyssey!")
+from .ollama_embedding_function import OllamaEmbeddings
