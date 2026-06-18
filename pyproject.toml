@@ -12,6 +12,7 @@ dependencies = [
     "httpx>=0.28.1",
     "ollama>=0.6.2",
     "pydantic>=2.13.4",
+    "pyprojroot>=0.3.0",
 ]
 
 [project.scripts]
