@@ -219,3 +219,7 @@ __marimo__/
 
 # Books
 data/books
+
+# Databases
+db/*
+!db/.gitkeep
