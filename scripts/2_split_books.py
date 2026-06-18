@@ -50,8 +50,8 @@ def write_books(text: str, ranges: list[tuple[str, int, int]]) -> None:
     out_dir = data_dir() / "books"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    for book_label, start, end in ranges:
-        target = out_dir / f"book_{book_label}.txt"
+    for i, (book_label, start, end) in enumerate(ranges):
+        target = out_dir / f"book_{book_label} ({i + 1}).txt"
         content = text[start:end].rstrip() + "\n"
         target.write_text(content, encoding="utf-8")
         print(f"Saved {target}")
