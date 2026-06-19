@@ -2,20 +2,22 @@ import time
 
 import gradio as gr
 
+MODELS = {
+    "Model 1": lambda x: f"Model 1 response: {x}",
+    "Model 2": lambda x: f"Model 2 response: {x}",
+    "Model 3": lambda x: f"Model 3 response: {x}",
+}
 
-def model_a_response(message, history):
+
+def run_model(model_name, message):
     time.sleep(1)
-    return f"Model A says:\n\n{message}"
+    return MODELS[model_name](message)
 
 
-def model_b_response(message, history):
-    time.sleep(1)
-    return f"Model B says:\n\n{message}"
+def send(message, model_a, model_b, history_a, history_b):
 
-
-def send_to_both(message, history_a, history_b):
-    response_a = model_a_response(message, history_a)
-    response_b = model_b_response(message, history_b)
+    response_a = run_model(model_a, message)
+    response_b = run_model(model_b, message)
 
     history_a = history_a + [
         {"role": "user", "content": message},
@@ -30,36 +32,47 @@ def send_to_both(message, history_a, history_b):
     return "", history_a, history_b
 
 
-with gr.Blocks() as demo:
-    gr.Markdown("# Compare two models")
+def build_app():
 
-    with gr.Row():
-        with gr.Column():
-            gr.Markdown("## Model A")
-            chat_a = gr.Chatbot()
+    with gr.Blocks() as demo:
 
-        with gr.Column():
-            gr.Markdown("## Model B")
-            chat_b = gr.Chatbot()
+        gr.Markdown("# Model comparison")
 
-    with gr.Row():
-        textbox = gr.Textbox(
-            placeholder="Ask both models the same question...", scale=4
+        with gr.Row():
+
+            with gr.Column():
+                model_a = gr.Dropdown(
+                    choices=list(MODELS.keys()), value="Model 1", label="Model A"
+                )
+
+                chat_a = gr.Chatbot(label="Model A")
+
+            with gr.Column():
+                model_b = gr.Dropdown(
+                    choices=list(MODELS.keys()), value="Model 2", label="Model B"
+                )
+
+                chat_b = gr.Chatbot(label="Model B")
+
+        prompt = gr.Textbox(placeholder="Ask both models...")
+
+        send_btn = gr.Button("Send")
+
+        send_btn.click(
+            send,
+            inputs=[prompt, model_a, model_b, chat_a, chat_b],
+            outputs=[prompt, chat_a, chat_b],
         )
-        submit = gr.Button("Send", scale=1)
 
-    submit.click(
-        send_to_both,
-        inputs=[textbox, chat_a, chat_b],
-        outputs=[textbox, chat_a, chat_b],
-    )
+        prompt.submit(
+            send,
+            inputs=[prompt, model_a, model_b, chat_a, chat_b],
+            outputs=[prompt, chat_a, chat_b],
+        )
 
-    textbox.submit(
-        send_to_both,
-        inputs=[textbox, chat_a, chat_b],
-        outputs=[textbox, chat_a, chat_b],
-    )
+    return demo
 
 
 if __name__ == "__main__":
-    demo.launch()
+    app = build_app()
+    app.launch()
