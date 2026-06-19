@@ -26,7 +26,9 @@ class OllamaEmbeddings(EmbeddingFunction):
 
         response = self._embed(input)
 
-        return [np.array(e) for e in response.embeddings]
+        return [
+            np.array(embedding, dtype=np.float32) for embedding in response.embeddings
+        ]
 
     @staticmethod
     def name() -> str:
