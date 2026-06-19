@@ -1,4 +1,4 @@
-from typing import Any, Literal, TypedDict
+from typing import Literal, TypedDict
 
 from ollama import Client
 
@@ -13,7 +13,7 @@ class SimpleChat:
         self.model = model
         self._client = Client()
 
-    def __call__(self, message: str, history: list[ChatMessage]) -> Any:
+    def __call__(self, message: str, history: list[ChatMessage]) -> str:
         return self._chat(message, history)
 
     def _chat(self, message: str, history: list[ChatMessage]) -> str:
