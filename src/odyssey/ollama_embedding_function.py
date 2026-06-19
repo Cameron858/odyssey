@@ -1,8 +1,9 @@
-from typing import Any, Callable, Dict
+from typing import Any, Dict, List
 
 import numpy as np
 import ollama
 from chromadb import Documents, EmbeddingFunction, Embeddings
+from chromadb.api.types import Space
 from chromadb.utils.embedding_functions import register_embedding_function
 
 
@@ -30,6 +31,12 @@ class OllamaEmbeddings(EmbeddingFunction):
     @staticmethod
     def name() -> str:
         return "ollama-embeddings"
+
+    def default_space(self) -> Space:
+        return "cosine"
+
+    def supported_spaces(self) -> List[Space]:
+        return ["cosine", "l2", "ip"]
 
     def get_config(self) -> Dict[str, Any]:
         return dict(model=self.model)
