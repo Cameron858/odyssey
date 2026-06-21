@@ -3,24 +3,22 @@ import time
 import gradio as gr
 
 from odyssey.adapters import gradio_chat_adapter
-from odyssey.models import SimpleChat
+from odyssey.models import DebugChat, SimpleChat
 
 MODELS = {
     "Model 1": lambda x, y: f"Model 1 response: {x, y}",
     "Model 2": lambda x, y: f"Model 2 response: {x, y}",
     "Model 3": lambda x, y: f"Model 3 response: {x, y}",
+    "Debug": DebugChat(),
     "SimpleChat": gradio_chat_adapter(SimpleChat(model="llama3.1:8b")),
 }
 
 
 def run_model(model_name, message, history):
-    time.sleep(1)
     return MODELS[model_name](message, history)
 
 
 def send(message, model_a, model_b, history_a, history_b):
-
-    print(f"{message=}\n{history_a=}\n{history_b=}")
 
     response_a = run_model(model_a, message, history_a)
     response_b = run_model(model_b, message, history_b)

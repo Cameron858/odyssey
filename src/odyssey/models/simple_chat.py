@@ -1,11 +1,6 @@
-from typing import Literal, TypedDict
-
 from ollama import Client
 
-
-class ChatMessage(TypedDict):
-    role: Literal["user", "assistant", "system"]
-    content: str
+from odyssey.types import ChatMessage
 
 
 class SimpleChat:
