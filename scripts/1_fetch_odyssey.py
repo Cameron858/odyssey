@@ -7,7 +7,6 @@ Behavior:
 - If none exist: fetch then split.
 """
 
-import sys
 from pathlib import Path
 
 import httpx
@@ -91,8 +90,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as exc:  # pragma: no cover - surface errors to user
-        print(f"Error: {exc}", file=sys.stderr)
-        sys.exit(1)
+    main()

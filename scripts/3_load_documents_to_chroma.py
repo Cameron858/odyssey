@@ -110,9 +110,7 @@ def add_in_batches(
                 break
 
             except Exception as e:
-                print(
-                    f"Batch {batch_num} failed " f"(attempt {attempt}/{retries}): {e}"
-                )
+                print(f"Batch {batch_num} failed (attempt {attempt}/{retries}): {e}")
 
                 if attempt == retries:
                     raise

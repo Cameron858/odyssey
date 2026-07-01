@@ -8,7 +8,6 @@ The script preserves the heading block and writes each book to:
 """
 
 import re
-import sys
 from pathlib import Path
 
 BOOK_HEADING = re.compile(r"^(BOOK\s+([IVXLCDM]+))\s*$", re.MULTILINE)
@@ -65,8 +64,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as exc:
-        print(f"Error: {exc}", file=sys.stderr)
-        sys.exit(1)
+    main()
