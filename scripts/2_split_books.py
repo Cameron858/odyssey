@@ -45,13 +45,19 @@ def find_book_ranges(text: str) -> list[tuple[str, int, int]]:
     return ranges
 
 
+def pre_process_text(text: str) -> str:
+    text = re.sub(r"\n-{70}+\n", "", text)
+    return text
+
+
 def write_books(text: str, ranges: list[tuple[str, int, int]]) -> None:
     out_dir = data_dir() / "books"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for i, (book_label, start, end) in enumerate(ranges):
         target = out_dir / f"book_{book_label} ({i + 1}).txt"
-        content = text[start:end].rstrip() + "\n"
+        content = text[start:end]
+        content = pre_process_text(content)
         target.write_text(content, encoding="utf-8")
         print(f"Saved {target}")
 
