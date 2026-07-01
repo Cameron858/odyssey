@@ -55,10 +55,12 @@ def split_file() -> None:
     lines = text.splitlines(keepends=True)
 
     header_lines = lines[:12]
-    material_lines = lines[12:]
+    material_lines = lines[12:-10]
+    copyright_lines = lines[-10:]
 
     (out_dir / "reference.txt").write_text("".join(header_lines), encoding="utf-8")
     (out_dir / "odyssey.txt").write_text("".join(material_lines), encoding="utf-8")
+    (out_dir / "copyright.txt").write_text("".join(copyright_lines), encoding="utf-8")
 
     print(f"Split into: {out_dir / 'reference.txt'} and {out_dir / 'odyssey.txt'}")
 
